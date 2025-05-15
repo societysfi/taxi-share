@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Taxi-Share Calendar</title>
+
+  <!-- FullCalendar (mobile-friendly agenda & month views) -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+  <style>
+    html,body{margin:0;padding:0;font-family:system-ui,Arial,sans-serif}
+    #calendar{max-width:800px;margin:0 auto;padding:16px}
+    a.button{display:inline-block;margin:0 auto 12px;padding:10px 18px;
+             background:#1976d2;color:#fff;text-decoration:none;border-radius:4px}
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align:center;margin:16px 0 8px">Taxi-Share Schedule</h2>
+
+  <!-- link to your Tally form (edit if the ID ever changes) -->
+  <p style="text-align:center">
+    <a class="button" href="https://tally.so/r/your-form-id" target="_blank">
+      ➕ Add your travel details
+    </a>
+  </p>
+
+  <div id="calendar"></div>
+
+  <script>
+    /* ------------  CONFIG  ------------ */
+    const AIRTABLE_TOKEN = 'patzr1555cRRlTHzJ.6a9a390dba60c4b0c812d6e88a2684279343d387893818a3c650306360a05f57';
+    const AIRTABLE_BASE  = 'appVJ7Qfs6iW40RdC';
+    const TABLE_NAME     = 'Airport%20Taxi%20Sharing';   // space → %20
+    const VIEW_NAME      = 'Grid%20view';                // or a filtered view
+    const TITLE_FIELD    = 'Calendar Title';             // e.g. “Name · Time · Dir”
+    const DATE_FIELD     = 'Date of Travel';
+
+    /* ----------  FETCH RECORDS  ---------- */
+    fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${TABLE_NAME}?view=${VIEW_NAME}`, {
+      headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` }
+    })
+    .then(r => r.json())
+    .then(data => {
+      const events = data.records
+        .filter(rec => rec.fields[DATE_FIELD])
+        .map(rec => ({
+          title : rec.fields[TITLE_FIELD] || rec.fields['Name'],
+          start : rec.fields[DATE_FIELD],
+          allDay: false     // set to true if you prefer all-day entries
+        }));
+
+      /* ----------  RENDER CALENDAR  ---------- */
+      new FullCalendar.Calendar(document.getElementById('calendar'), {
+        initialView   : 'listWeek',             // mobile-friendly agenda
+        headerToolbar : {
+          left  : 'prev,next today',
+          center: 'title',
+          right : 'listWeek,dayGridMonth'       // users can switch to month grid
+        },
+        events,
+        height: 'auto'
+      }).render();
+    })
+    .catch(err => {
+      document.getElementById('calendar').innerHTML =
+        '<p style="color:red;text-align:center">Error loading data: '+err+'</p>';
+    });
+  </script>
+</body>
+</html>
