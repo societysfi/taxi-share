@@ -3,29 +3,24 @@
 <head>
   <meta charset="utf-8" />
 
-  <!-- 👇 Force a 1024-pixel desktop canvas on all devices -->
+  <!-- Force desktop-width layout on every device -->
   <meta name="viewport" content="width=1024" />
 
   <title>Taxi-Share Schedule</title>
   <style>
-    /* --- Global reset --- */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow-x: hidden;                 /* never show sideways scroll bar */
+      overflow-x: hidden;              /* never show sideways scroll */
       font-family: system-ui, sans-serif;
       background: #f9f9f9;
     }
-
-    /* --- Flex layout filling entire screen --- */
     .page {
       display: flex;
       flex-direction: column;
       height: 100%;
     }
-
-    /* Header with sticky behaviour */
     header {
       flex: 0 0 auto;
       background: #fff;
@@ -36,10 +31,7 @@
       top: 0;
       z-index: 10;
     }
-    header h1 {
-      margin: 0.25em 0 0.5em;
-      font-size: 1.25em;
-    }
+    header h1 { margin: .25em 0 .5em; font-size: 1.25em; }
     .btn {
       display: inline-block;
       padding: .6rem 1.2rem;
@@ -49,8 +41,6 @@
       font-size: 1rem;
       text-decoration: none;
     }
-
-    /* Airtable iframe fills the rest of the viewport */
     .iframe-wrap {
       flex: 1 1 auto;
       overflow: hidden;
@@ -72,9 +62,10 @@
       </a>
     </header>
 
+    <!-- Live-updating Airtable view -->
     <div class="iframe-wrap">
       <iframe
-        src="https://airtable.com/embed/appVJ7Qfs6iW40RdC/shr0IJUqB7tcxPHyA?viewControls=on"
+        src="https://airtable.com/embed/appVJ7Qfs6iW40RdC/shrxFLSLZMoT1tTdg?backgroundColor=yellow&viewControls=on"
         loading="lazy">
       </iframe>
     </div>
