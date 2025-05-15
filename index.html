@@ -4,52 +4,54 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Taxi-Share Schedule</title>
+
   <style>
-    /* Reset & full-height flex layout */
+    /* --------  Global reset  -------- */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
+      overflow-x: hidden;      /* <-- kills sideways scroll */
       font-family: system-ui, sans-serif;
       background: #f9f9f9;
     }
-    .container {
+
+    /* --------  Flex page layout  -------- */
+    .page {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100%;
     }
-    /* Sticky header */
+
+    /* Sticky header with button */
     header {
       flex: 0 0 auto;
       background: #fff;
       padding: 1rem;
       text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,.05);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 10;
     }
-    header h1 {
-      margin: 0.2em 0;
-      font-size: 1.25em;
-    }
-    .button {
+    header h1 { margin: .25em 0 .5em; font-size: 1.25em; }
+
+    .btn {
       display: inline-block;
-      margin-top: 0.5rem;
-      padding: 0.6rem 1.2rem;
+      padding: .6rem 1.2rem;
       background: #1976d2;
       color: #fff;
-      text-decoration: none;
       border-radius: 4px;
+      text-decoration: none;
       font-size: 1rem;
     }
-    /* Embed fills remaining space */
-    .embed-wrapper {
+
+    /* Airtable iframe fills the rest of the screen */
+    .iframe-wrap {
       flex: 1 1 auto;
-      width: 100vw;
-      overflow: hidden;
+      overflow: hidden;        /* no stray scrollbars */
     }
-    .embed-wrapper iframe {
+    .iframe-wrap iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -58,19 +60,19 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="page">
     <header>
       <h1>Taxi-Share Schedule</h1>
-      <a class="button" href="https://tally.so/r/3xokKv" target="_blank">
+      <a class="btn" href="https://tally.so/r/3xokKv" target="_blank">
         ➕ Add your travel details
       </a>
     </header>
 
-    <div class="embed-wrapper">
+    <div class="iframe-wrap">
       <iframe
         src="https://airtable.com/embed/appVJ7Qfs6iW40RdC/shr0IJUqB7tcxPHyA?viewControls=on"
-        loading="lazy"
-      ></iframe>
+        loading="lazy">
+      </iframe>
     </div>
   </div>
 
